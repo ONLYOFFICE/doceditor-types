@@ -1,0 +1,35 @@
+{
+  "name": "@onlyoffice/doceditor-types",
+  "version": "9.3.1",
+  "description": "TypeScript type definitions for the ONLYOFFICE Document Editor API",
+  "types": "index.d.ts",
+  "files": [
+    "index.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "onlyoffice",
+    "document-editor",
+    "docs-api",
+    "typescript",
+    "types",
+    "doceditor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ONLYOFFICE/doceditor-types.git"
+  },
+  "homepage": "https://api.onlyoffice.com/docs/docs-api/usage-api/config/",
+  "bugs": {
+    "url": "https://github.com/ONLYOFFICE/doceditor-types/issues"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "typescript": "~5.6.2"
+  }
+}
