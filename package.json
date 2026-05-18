@@ -2,16 +2,20 @@
   "name": "@onlyoffice/doceditor-types",
   "version": "9.3.1",
   "description": "TypeScript type definitions for the ONLYOFFICE Document Editor API",
-  "types": "index.d.ts",
-  "files": [
-    "index.d.ts"
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ONLYOFFICE/doceditor-types/issues",
+    "email": "support@onlyoffice.com"
+  },
+  "homepage": "https://api.onlyoffice.com/docs/docs-api/usage-api/config/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ONLYOFFICE/doceditor-types"
+  },
+  "author": "Ascensio System SIA <integration@onlyoffice.com> (https://www.onlyoffice.com)",
+  "maintainers": [
+    "Ascensio System SIA <integration@onlyoffice.com> (https://www.onlyoffice.com)"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "typecheck": "tsc --noEmit"
-  },
   "keywords": [
     "onlyoffice",
     "document-editor",
@@ -20,16 +24,17 @@
     "types",
     "doceditor"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ONLYOFFICE/doceditor-types.git"
+  "publishConfig": {
+    "access": "public"
   },
-  "homepage": "https://api.onlyoffice.com/docs/docs-api/usage-api/config/",
-  "bugs": {
-    "url": "https://github.com/ONLYOFFICE/doceditor-types/issues"
+  "scripts": {
+    "typecheck": "tsc --noEmit"
   },
-  "license": "Apache-2.0",
   "devDependencies": {
     "typescript": "~5.6.2"
-  }
+  },
+  "files": [
+    "index.d.ts"
+  ],
+  "types": "index.d.ts"
 }
