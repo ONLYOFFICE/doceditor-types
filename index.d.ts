@@ -471,6 +471,44 @@ export interface SaveDocumentEvent {
     data?: ArrayBuffer;
 }
 
+/** Event data for the `onStartFilling` event. */
+export interface StartFillingEvent {
+    /**
+     * The list of roles available in the PDF form with assigned user information.
+     */
+    data?: {
+        /**
+         * The role name.
+         */
+        name: string;
+        /**
+         * The role color in hex format (e.g. `#FF0000`).
+         */
+        color: string;
+        /**
+         * The user assigned to the role.
+         */
+        user: {
+            /**
+             * The user email.
+             */
+            email: string;
+            /**
+             * The user ID.
+             */
+            id: string;
+            /**
+             * The URL to the user avatar.
+             */
+            image: string;
+            /**
+             * The user name.
+             */
+            name: string;
+        };
+    }[];
+}
+
 /** Event data for the `onRequestStartFilling` event. */
 export interface RequestStartFillingEvent {
     /**
@@ -3173,7 +3211,7 @@ export interface EventsNormal extends EventsBase {
      * @forType `desktop` | `mobile`
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/#onstartfilling
      */
-    onStartFilling?: () => void;
+    onStartFilling?: (event: StartFillingEvent) => void;
 }
 
 /** Event callbacks for the embedded editor type. */
