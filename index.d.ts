@@ -974,7 +974,7 @@ export interface EditorConfigBase {
      * @example "https://example.com/url-to-callback"
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/#callbackurl
      */
-    callbackUrl: string;
+    callbackUrl?: string;
 
     /**
      * The user currently viewing or editing the document.
