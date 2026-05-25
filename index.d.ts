@@ -3636,6 +3636,197 @@ export interface SetSharingSettingsOptions {
     sharingSettings?: SharingSetting[];
 }
 
+/** Context menu item parameters for the connector. */
+export interface ConnectorContextMenuItem {
+    /** The item ID. */
+    id?: string;
+    /** The item caption. */
+    text?: string;
+    /** The item data (sent to the click event callback). */
+    data?: string;
+    /** Whether the current item is disabled. */
+    disabled?: boolean;
+    /** The item icons (see the plugin config documentation). */
+    icons?: string;
+    /** The click event callback. */
+    onClick?: () => void;
+    /** Nested context menu items. */
+    items?: ConnectorContextMenuItem[];
+}
+
+/** Toolbar menu item type. */
+export type ConnectorToolbarMenuItemType = "button" | "big-button";
+
+/** Toolbar menu item parameters for the connector. */
+export interface ConnectorToolbarMenuItem {
+    /** The item ID. */
+    id?: string;
+    /** The item type. */
+    type?: ConnectorToolbarMenuItemType;
+    /** The item caption. If empty, the button is displayed only with an icon. */
+    text?: string;
+    /** The item hint. */
+    hint?: string;
+    /** The item icons (see the plugin config documentation). */
+    icons?: string | object;
+    /** Whether the current item is locked. */
+    disabled?: boolean;
+    /** Whether the item can be toggled. */
+    enableToggle?: boolean;
+    /** Whether the item is automatically locked in view modes. */
+    lockInViewMode?: boolean;
+    /** Whether a separator is used between items. */
+    separator?: boolean;
+    /** Whether the item is split into two parts with a drop-down menu. */
+    split?: boolean;
+    /** The click event callback. */
+    onClick?: (data: string) => void;
+    /** Nested toolbar menu items. */
+    items?: ConnectorToolbarMenuItem[];
+}
+
+/** Toolbar menu tab. */
+export interface ConnectorToolbarMenuTab {
+    /** The tab ID. */
+    id: string;
+    /** The tab text. */
+    text: string;
+    /** The toolbar menu items for this tab. */
+    items: ConnectorToolbarMenuItem[];
+}
+
+/** Toolbar menu main item. */
+export interface ConnectorToolbarMenuMainItem {
+    /** The plugin guid. */
+    guid?: string;
+    /** The toolbar menu tabs. */
+    tabs: ConnectorToolbarMenuTab[];
+}
+
+/**
+ * The ConnectorWindow class manages a modal window created by a connector inside the editor.
+ *
+ * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-window/
+ */
+export interface ConnectorWindow {
+    /**
+     * Add an event listener to the modal window frame.
+     *
+     * @param id - The event name.
+     * @param action - The event listener.
+     */
+    attachEvent(id: string, action: (...args: any[]) => void): void;
+
+    /**
+     * Send an event to the modal window frame.
+     *
+     * @param name - The event name.
+     * @param data - The event data.
+     */
+    dispatchEvent(name: string, data: string | object): void;
+
+    /**
+     * Show a modal window inside the editor.
+     *
+     * @param settings - The modal window parameters (same as plugin variation settings).
+     */
+    show(settings: object): void;
+}
+
+/**
+ * The Connector class allows interacting with documents, spreadsheets, presentations, PDFs, and fillable forms from an external source.
+ *
+ * @info This class is available only for ONLYOFFICE Docs Developer.
+ * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/
+ */
+export interface Connector {
+    /**
+     * Add an item to the context menu.
+     *
+     * @param items - An array containing the context menu item parameters.
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#addcontextmenuitem
+     */
+    addContextMenuItem(items: ConnectorContextMenuItem[]): void;
+
+    /**
+     * Add an item to the toolbar menu.
+     *
+     * @param items - The toolbar main menu item parameters.
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#addtoolbarmenuitem
+     */
+    addToolbarMenuItem(items: ConnectorToolbarMenuMainItem): void;
+
+    /**
+     * Add an event listener that will be called whenever the specified event is delivered to the target.
+     *
+     * @param name - The event name.
+     * @param callback - The event listener.
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#attachevent
+     */
+    attachEvent(name: string, callback: (...args: any[]) => void): void;
+
+    /**
+     * Send commands and data back to the editor. The `commandFn` function is executed in its own context
+     * isolated from other JavaScript data. Use `Asc.scope` to pass external data to it.
+     *
+     * @param commandFn - A function containing Office JavaScript API commands to manipulate the document.
+     * @param callback - A function that receives the return value of `commandFn`. Primitives, plain objects,
+     *   arrays, and TypedArrays are supported (up to 10 levels of nesting). If the return value contains
+     *   functions or exceeds the nesting limit, the callback receives `undefined`.
+     * @param isNoCalc - Whether to skip document recalculation. Default: `false`.
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#callcommand
+     */
+    callCommand(commandFn: () => any, callback?: (returnValue: any) => void, isNoCalc?: boolean): void;
+
+    /**
+     * Connect the connector to the editor. Only needed after calling `disconnect`.
+     * When creating a connector, `connect` is called automatically.
+     *
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#connect
+     */
+    connect(): void;
+
+    /**
+     * Create a modal window to display additional information inside the editor.
+     *
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#createwindow
+     */
+    createWindow(): ConnectorWindow;
+
+    /**
+     * Remove an event listener.
+     *
+     * @param name - The event name.
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#detachevent
+     */
+    detachEvent(name: string): void;
+
+    /**
+     * Disconnect the connector from the editor.
+     *
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#disconnect
+     */
+    disconnect(): void;
+
+    /**
+     * Execute certain editor methods using the connector.
+     *
+     * @param name - The name of the method to execute.
+     * @param args - The arguments for the method (if any).
+     * @param callback - A function that receives the method's return value.
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#executemethod
+     */
+    executeMethod(name: string, args?: any[] | null, callback?: (returnValue: any) => void): void;
+
+    /**
+     * Update an item in the context menu.
+     *
+     * @param items - An array containing the context menu item parameters.
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#updatecontextmenuitem
+     */
+    updateContextMenuItem(items: ConnectorContextMenuItem[]): void;
+}
+
 /**
  * The DocEditor object is created by the `DocsAPI.DocEditor` constructor and provides methods to interact with the editor.
  *
@@ -3656,7 +3847,7 @@ export declare class DocEditor {
      * @info This method is available only for ONLYOFFICE Docs Developer.
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#createconnector
      */
-    createConnector(): object;
+    createConnector(): Connector;
 
     /**
      * Deny editing. This method can be called when you want to make the document editing unavailable.
