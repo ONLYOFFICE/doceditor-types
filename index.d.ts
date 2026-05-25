@@ -2002,16 +2002,6 @@ export interface EditorConfigNormal extends EditorConfigBase {
         forcesave?: boolean;
 
         /**
-         * Whether the user can edit and delete only their comments.
-         *
-         * @deprecated Starting from version 6.3, please use the `document.permissions.editCommentAuthorOnly` and `document.permissions.deleteCommentAuthorOnly` fields instead.
-         *
-         * @default false
-         * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#commentauthoronly
-         */
-        commentAuthorOnly?: boolean;
-
-        /**
          * Whether to display the review changes panel when the editor is loaded.
          *
          * @deprecated Starting from version 7.0, please use the `review.showReviewChanges` parameter instead.
