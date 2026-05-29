@@ -2080,7 +2080,7 @@ export interface EditorConfigNormal extends EditorConfigBase {
          * @default true
          * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#spellcheck
          */
-        spellcheck: boolean;
+        spellcheck?: boolean;
 
         /**
          * Defines the use of functionality only compatible with the **OOXML format**.
