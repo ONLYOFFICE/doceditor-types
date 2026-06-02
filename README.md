@@ -44,7 +44,7 @@ This package version tracks the ONLYOFFICE Docs Server version.
 
 | Package version | Docs Server version |
 | --------------- | ------------------- |
-| 9.3.1           | 9.3.1               |
+| 9.4.0           | 9.4.0               |
 
 ## Documentation
 
