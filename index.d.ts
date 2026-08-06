@@ -2605,7 +2605,7 @@ export interface EventsNormal extends EventsBase {
     /**
      * The function called when the user is trying to show the document version history by clicking the *Version History* button. To show the document version history, call the `refreshHistory` method.
      *
-     * @note If this event and the `onRequestHistoryData` event are not declared, the *Version History* button will not be displayed.
+     * @note If this event is not declared, the *Version History* button will not be displayed.
      *
      * @forType `desktop` | `mobile`
      * @example
@@ -2647,7 +2647,7 @@ export interface EventsNormal extends EventsBase {
      * The function called when the user is trying to click a specific document version in the document version history. To show the changes, call the `setHistoryData` method. When calling this method, the `token` must be added to validate the parameters.
      *
      * @param event
-     * @note If this event and the `onRequestHistory` event are not declared, the *Version History* button will not be displayed.
+     * @note This event is optional. If each version passed to `refreshHistory` already contains a `url`, the version opens without it. It is still recommended, because the editor requests the data again when a version has no `url` or when its URL is older than 5 minutes.
      *
      * @forType `desktop` | `mobile`
      * @example
