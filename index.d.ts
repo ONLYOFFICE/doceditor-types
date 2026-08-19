@@ -195,10 +195,12 @@ export type Region =
 
 /** Available editor theme identifiers. */
 export type EditorTheme =
-    "theme-light"
+    "theme-system"
+    | "theme-light"
     | "theme-classic-light"
     | "theme-dark"
     | "theme-contrast-dark"
+    | "theme-gray"
     | "theme-white"
     | "theme-night"
 
@@ -2207,12 +2209,15 @@ export interface EditorConfigNormal extends EditorConfigBase {
 
         /**
          * The **editor theme settings**. It can be set in two ways:
-         * - **theme id** - the user sets the theme parameter by its id (`theme-light`, `theme-classic-light`, `theme-dark`, `theme-contrast-dark`, `theme-white`, `theme-night`);
+         * - **theme id** - the user sets the theme parameter by its id (`theme-system`, `theme-light`, `theme-classic-light`, `theme-dark`, `theme-contrast-dark`, `theme-gray`, `theme-white`, `theme-night`);
          * - **default theme** - the default dark or light theme value will be set (`default-dark`, `default-light`).
-         *   The default light theme is `theme-classic-light`. The first option has higher priority.
+         *   The default light theme is `theme-white`, the default dark theme is `theme-night`.
+         *
+         * The `theme-system` value follows the operating system color scheme preference, resolving to `theme-white` or `theme-night`.
+         * The `theme-gray` value is a light theme.
          *
          * @note Apart from the available editor themes, the user can also customize their own color themes for the application interface.
-         * @note In case this setting is changed in the editor interface, it will be stored in the browser local storage and will overwrite any values sent as the `editorConfig.customization.uiTheme` parameter.
+         * @note In case this setting is changed in the editor interface, it will be stored in the browser local storage and will overwrite any values sent as the `editorConfig.customization.uiTheme` parameter. If neither a stored value nor this parameter is set, the editor follows the operating system color scheme preference.
          *
          * @example "theme-dark"
          * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#uitheme
