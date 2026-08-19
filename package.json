@@ -1,6 +1,6 @@
 {
   "name": "@onlyoffice/doceditor-types",
-  "version": "9.4.0",
+  "version": "9.4.1",
   "description": "TypeScript type definitions for the ONLYOFFICE Document Editor API",
   "license": "Apache-2.0",
   "bugs": {
