@@ -3264,6 +3264,15 @@ export interface BaseConfig {
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/#token
      */
     token?: string;
+
+    /**
+     * The title of the content opened in the editor.
+     * It is set as the `title` attribute of the editor frame and is used to describe the frame contents, in particular, by screen readers.
+     * @example "Example Document Title.docx"
+     * @forType `desktop` | `mobile` | `embedded`
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/#title
+     */
+    title?: string;
 }
 
 export interface ConfigNormal extends BaseConfig {
