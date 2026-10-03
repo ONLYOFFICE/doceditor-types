@@ -3962,7 +3962,7 @@ export declare class DocEditor {
     setReferenceSource(options: SetReferenceDataOptions): void;
 
     /**
-     * Select a document for comparing, combining, or inserting text. This method must be called after the `onRequestSelectDocument` event.
+     * Select a document for comparing, combining, or inserting text. This method is usually called in the `onRequestSelectDocument` event handler. It can also be called directly once the `onDocumentReady` event has fired, for example, to compare documents without user action.
      *
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#setrequesteddocument
      */
