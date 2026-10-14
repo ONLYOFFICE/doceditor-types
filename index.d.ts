@@ -1398,6 +1398,23 @@ export interface EditorConfigNormal extends EditorConfigBase {
         reviewPermissions?: {[group: string]: string[]};
 
         /**
+         * The settings for the AI features in the editor.
+         *
+         * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#ai
+         */
+        ai?: {
+            /**
+             * Whether to disable the AI features in the editor. If set to `true`, the **AI Tools** are hidden.
+             * This is a shortcut for adding the AI plugin identifier (`asc.{9DC93CDB-B576-4F0C-B55E-FCC9C48DD007}`) to the `editorConfig.plugins.disable` list.
+             *
+             * @default false
+             * @example true
+             * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#aidisabled
+             */
+            disabled?: boolean;
+        };
+
+        /**
          * Adds a request for the anonymous name.
          *
          * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#anonymous
