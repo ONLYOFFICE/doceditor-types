@@ -83,6 +83,7 @@ export type SlideFileType =
 /** Supported file types for portable document format files. */
 export type PdfFileType =
     | "djvu"
+    | "ofd"
     | "oxps"
     | "pdf"
     | "xps"
