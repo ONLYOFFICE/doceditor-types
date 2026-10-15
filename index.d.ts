@@ -4000,9 +4000,11 @@ export declare class DocEditor {
     showMessage(message: string): void;
 
     /**
-     * Start filling out the ready forms and lock the pdf editing (only pdf viewing becomes available). This method can be called only after the `onRequestStartFilling` event.
+     * Start filling out the ready forms and lock the pdf editing (only pdf viewing becomes available). This method can be called only after the `onRequestStartFilling` event. When the form preparation is complete, the `onStartFilling` event is called.
      *
+     * @note This method works only if the `onStartFilling` event is declared. Otherwise, the call is ignored.
+     * @param disconnect - Specifies whether to lock editing for all the users who are editing the form: `true` to switch all the co-editors to viewing mode and show them a warning that form filling is in progress, `false` to lock editing only for the current user. The default value is `false`.
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#startfilling
      */
-    startFilling(): void;
+    startFilling(disconnect?: boolean): void;
 }
