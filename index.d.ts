@@ -3132,7 +3132,7 @@ export interface EventsNormal extends EventsBase {
     onSaveDocument?: (event: SaveDocumentEvent) => void;
 
     /**
-     * The function called when the user is trying to start filling out ready forms by clicking the *Start filling* button in PDF editing mode. When the user clicks the *Start filling* button, the `startFilling` method is called to lock PDF editing (only PDF viewing becomes available).
+     * The function called when the user is trying to start filling out ready forms by clicking the *Start filling* button in PDF editing mode. When the user clicks the *Start filling* button, the `startFilling` method is called to lock PDF editing (only PDF viewing becomes available). This event is also called after the `requestRoles` method is called.
      *
      * @note If this event is not declared, the *Start filling* button will not be displayed.
      *
@@ -3899,6 +3899,13 @@ export declare class DocEditor {
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#requestclose
      */
     requestClose(): void;
+
+    /**
+     * Request the roles of the PDF form that is being edited. In response, the editor calls the `onRequestStartFilling` event and passes the array of form roles in its `data` parameter, the same as when the user clicks the *Start filling* button. Declare this event to receive the roles. If the document is not loaded yet, the event is called once loading is complete.
+     *
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#requestroles
+     */
+    requestRoles(): void;
 
     /**
      * Set the link to the document which contains a bookmark. This method must be called after the `onMakeActionLink` event.
