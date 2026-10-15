@@ -3818,6 +3818,15 @@ export interface Connector {
     executeMethod(name: string, args?: any[] | null, callback?: (returnValue: any) => void): void;
 
     /**
+     * Send a custom event to the plugins that are running in the editor. The event is delivered to every plugin that subscribed to it, either with the `attachEditorEvent` method or with the `events` parameter in its config.json file. If a plugin has not finished loading yet, the event is delivered once it is ready.
+     *
+     * @param name - The event name.
+     * @param data - The event data passed to the plugin event listener.
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#sendevent
+     */
+    sendEvent(name: string, data?: any): void;
+
+    /**
      * Update an item in the context menu.
      *
      * @param items - An array containing the context menu item parameters.
