@@ -3455,9 +3455,9 @@ export interface RefreshHistoryOptions {
         key: string;
 
         /**
-         * The current server version number.
+         * The version of the document editing service that saved the changes, e.g. `"10.0.0"`. Pass the `serverVersion` value from the history object returned after saving the document as is. The changes are displayed only if this value matches the current server version. If the `changes` parameter is sent, then the `serverVersion` parameter is required to be sent as well.
          */
-        serverVersion?: number;
+        serverVersion?: string;
 
         /**
          * The user who is the author of the document version.
