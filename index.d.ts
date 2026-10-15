@@ -83,6 +83,7 @@ export type SlideFileType =
 /** Supported file types for portable document format files. */
 export type PdfFileType =
     | "djvu"
+    | "ofd"
     | "oxps"
     | "pdf"
     | "xps"
@@ -1397,6 +1398,23 @@ export interface EditorConfigNormal extends EditorConfigBase {
         reviewPermissions?: {[group: string]: string[]};
 
         /**
+         * The settings for the AI features in the editor.
+         *
+         * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#ai
+         */
+        ai?: {
+            /**
+             * Whether to disable the AI features in the editor. If set to `true`, the **AI Tools** are hidden.
+             * This is a shortcut for adding the AI plugin identifier (`asc.{9DC93CDB-B576-4F0C-B55E-FCC9C48DD007}`) to the `editorConfig.plugins.disable` list.
+             *
+             * @default false
+             * @example true
+             * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#aidisabled
+             */
+            disabled?: boolean;
+        };
+
+        /**
          * Adds a request for the anonymous name.
          *
          * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#anonymous
@@ -1423,7 +1441,6 @@ export interface EditorConfigNormal extends EditorConfigBase {
          * Contains the information about the **review mode**.
          *
          * @note In case this setting is changed in the editor interface, it will be stored in the browser local storage and will overwrite any values sent as the `editorConfig.customization.review.hoverMode` and the `editorConfig.customization.review.reviewDisplay` parameters.
-         * @note The `showReviewChanges`, `reviewDisplay`, and `trackChanges` parameters are deprecated **since version 7.0**. Please use the `review` parameter instead.
          *
          * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#review
          */
@@ -2042,16 +2059,6 @@ export interface EditorConfigNormal extends EditorConfigBase {
         forcesave?: boolean;
 
         /**
-         * Whether to display the review changes panel when the editor is loaded.
-         *
-         * @deprecated Starting from version 7.0, please use the `review.showReviewChanges` parameter instead.
-         *
-         * @default false
-         * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#showreviewchanges
-         */
-        showReviewChanges?: boolean;
-
-        /**
          * Whether to display the **Help** menu button.
          *
 
@@ -2088,18 +2095,6 @@ export interface EditorConfigNormal extends EditorConfigBase {
          * @default false
          */
         toolbarHideFileName?: boolean;
-
-        /**
-         * The review editing mode in the document editor.
-         *
-         * @note In case this setting is changed in the editor interface, it will be stored in the browser local storage and will overwrite any values sent as the `editorConfig.customization.reviewDisplay` parameter.
-         * @deprecated Starting from version 7.0, please use the `review.reviewDisplay` parameter instead.
-         *
-         * @defaultValue `original` for viewer and `markup` for editor
-         * @example "markup"
-         * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#reviewdisplay
-         */
-        reviewDisplay?: "markup" | "simple" | "final" | "original";
 
         /**
          * Whether the spell checker is automatically switched on or off when the editor is loaded. Spell checker will only be available for the document editor and the presentation editor.
@@ -2178,16 +2173,6 @@ export interface EditorConfigNormal extends EditorConfigBase {
          * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#macrosmode
          */
         macrosMode?: "disable" | "warn" | "enable";
-
-        /**
-         * Whether to enable the review editing mode for the current user. This parameter overrides `document.permissions.review`.
-         * If set to `true`, the review mode is enabled. If set to `false`, it is disabled. If `undefined`, the `document.permissions.review` value is applied instead.
-         *
-         * @deprecated Starting from version 7.0, please use the `review.trackChanges` parameter instead.
-         *
-         * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#trackchanges
-         */
-        trackChanges?: boolean;
 
         /**
          * Whether to display the editor rulers.
