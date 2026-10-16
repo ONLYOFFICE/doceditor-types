@@ -3132,7 +3132,7 @@ export interface EventsNormal extends EventsBase {
     onSaveDocument?: (event: SaveDocumentEvent) => void;
 
     /**
-     * The function called when the user is trying to start filling out ready forms by clicking the *Start filling* button in PDF editing mode. When the user clicks the *Start filling* button, the `startFilling` method is called to lock PDF editing (only PDF viewing becomes available).
+     * The function called when the user is trying to start filling out ready forms by clicking the *Start filling* button in PDF editing mode. When the user clicks the *Start filling* button, the `startFilling` method is called to lock PDF editing (only PDF viewing becomes available). This event is also called after the `requestRoles` method is called.
      *
      * @note If this event is not declared, the *Start filling* button will not be displayed.
      *
@@ -3455,9 +3455,9 @@ export interface RefreshHistoryOptions {
         key: string;
 
         /**
-         * The current server version number.
+         * The version of the document editing service that saved the changes, e.g. `"10.0.0"`. Pass the `serverVersion` value from the history object returned after saving the document as is. The changes are displayed only if this value matches the current server version. If the `changes` parameter is sent, then the `serverVersion` parameter is required to be sent as well.
          */
-        serverVersion?: number;
+        serverVersion?: string;
 
         /**
          * The user who is the author of the document version.
@@ -3818,6 +3818,15 @@ export interface Connector {
     executeMethod(name: string, args?: any[] | null, callback?: (returnValue: any) => void): void;
 
     /**
+     * Send a custom event to the plugins that are running in the editor. The event is delivered to every plugin that subscribed to it, either with the `attachEditorEvent` method or with the `events` parameter in its config.json file. If a plugin has not finished loading yet, the event is delivered once it is ready.
+     *
+     * @param name - The event name.
+     * @param data - The event data passed to the plugin event listener.
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/automation-api/connector-class/#sendevent
+     */
+    sendEvent(name: string, data?: any): void;
+
+    /**
      * Update an item in the context menu.
      *
      * @param items - An array containing the context menu item parameters.
@@ -3899,6 +3908,13 @@ export declare class DocEditor {
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#requestclose
      */
     requestClose(): void;
+
+    /**
+     * Request the roles of the PDF form that is being edited. In response, the editor calls the `onRequestStartFilling` event and passes the array of form roles in its `data` parameter, the same as when the user clicks the *Start filling* button. Declare this event to receive the roles. If the document is not loaded yet, the event is called once loading is complete.
+     *
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#requestroles
+     */
+    requestRoles(): void;
 
     /**
      * Set the link to the document which contains a bookmark. This method must be called after the `onMakeActionLink` event.
@@ -3993,9 +4009,11 @@ export declare class DocEditor {
     showMessage(message: string): void;
 
     /**
-     * Start filling out the ready forms and lock the pdf editing (only pdf viewing becomes available). This method can be called only after the `onRequestStartFilling` event.
+     * Start filling out the ready forms and lock the pdf editing (only pdf viewing becomes available). This method can be called only after the `onRequestStartFilling` event. When the form preparation is complete, the `onStartFilling` event is called.
      *
+     * @note This method works only if the `onStartFilling` event is declared. Otherwise, the call is ignored.
+     * @param disconnect - Specifies whether to lock editing for all the users who are editing the form: `true` to switch all the co-editors to viewing mode and show them a warning that form filling is in progress, `false` to lock editing only for the current user. The default value is `false`.
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#startfilling
      */
-    startFilling(): void;
+    startFilling(disconnect?: boolean): void;
 }
