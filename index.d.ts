@@ -342,7 +342,7 @@ export interface RequestUsersEvent {
         /**
          * The operation type.
          */
-        c?: "mention" | "protect" | "info";
+        c?: "mention" | "protect" | "info" | "filler";
         /**
          * The list of user IDs associated with the operation.
          */
@@ -477,7 +477,7 @@ export interface SaveDocumentEvent {
 /** Event data for the `onStartFilling` event. */
 export interface StartFillingEvent {
     /**
-     * The list of roles available in the PDF form with assigned user information.
+     * The list of roles available in the PDF form with assigned user information. Passed only when the form is sent from the **Send for signing** panel; `undefined` after the `startFilling` method.
      */
     data?: {
         /**
@@ -1100,7 +1100,7 @@ export interface EditorConfigNormal extends EditorConfigBase {
     /**
      * The URL of the file selection dialog opened in an iframe for inserting images, selecting documents for comparison, or choosing mail merge data sources. The URL can contain the `{documentType}` and `{fileExt}` placeholders, which will be replaced with the appropriate values (e.g., `ImagesOnly`, `DocumentsOnly`).
      *
-     * @note The `{documentType}` placeholder is required for the *Image from Storage* and *Document from Storage* buttons to appear.
+     * @note The `{documentType}` placeholder is required for the *Image from storage* and *Document from storage* buttons to appear.
      * @deprecated Use the `onRequestInsertImage`, `onRequestSelectDocument`, or `onRequestSelectSpreadsheet` events instead.
      * @forType `desktop` | `mobile`
      * @example "https://example.com/filechoice?type={documentType}"
@@ -1316,7 +1316,7 @@ export interface EditorConfigNormal extends EditorConfigBase {
             visible?: boolean;
 
             /**
-             * The absolute URL to the website which will be opened when clicking the **Feedback & Support** menu button.
+             * The absolute URL to the website which will be opened when clicking the **Feedback & Support** menu button. If not specified, the ONLYOFFICE support contact form (`https://www.onlyoffice.com/support-contact-form`) is opened.
              *
              * @example "https://example.com"
              * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#feedbackurl
@@ -1429,7 +1429,7 @@ export interface EditorConfigNormal extends EditorConfigBase {
             request?: boolean;
 
             /**
-             * A postfix added to the user name.
+             * A postfix added in brackets to the name of an anonymous user. Other users see it next to the name, for example, in the chat user list: `Elizabeth (Guest)`.
              *
              * @default "Guest"
              * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#anonymouslabel
@@ -1887,6 +1887,8 @@ export interface EditorConfigNormal extends EditorConfigBase {
                  * or the **toolbar background** (`toolbar`).
                  * This value is used when the editor is first opened.
                  *
+                 * @note The difference between the two values is visible only in the themes where the header and the toolbar have different colors. It is most noticeable in the themes with a colored header (`theme-light`, `theme-classic-light`) and less noticeable in the dark themes. In the `theme-white` and `theme-gray` themes, the header and the toolbar have the same or almost the same color, so both values look the same.
+                 *
                  * @default "header"
                  * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#featurestabbackgroundmode
                  */
@@ -2343,13 +2345,13 @@ export interface EditorConfigNormal extends EditorConfigBase {
         showHorizontalScroll?: boolean;
 
         /**
-         * The *Start filling* button settings in PDF form editing mode.
+         * The settings of the *Share & collect* button in PDF form editing mode.
          * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#startfillingform
          */
         startFillingForm?: {
             /**
-             * The caption of the *Start filling* button in PDF form editing mode.
-             * @default "Start filling"
+             * The caption of the *Share & collect* button in PDF form editing mode.
+             * @default "Share & collect"
              * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/editor/customization/customization-standard-branding/#startfillingformtext
              */
             text?: string;
@@ -2855,7 +2857,7 @@ export interface EventsNormal extends EventsBase {
     onMakeActionLink?: (event: MakeActionLinkEvent) => void;
 
     /**
-     * The function called when the user can select other users to mention in the comments, grant the access rights to edit the specific sheet ranges, or set the user avatars. To set a list of users, you must call the `setUsers` method which can take different lists of users depending on the specified operation type. The `onRequestUsers` event is called once for each `c` type when the corresponding operation is performed. If `setUsers` is called with an empty list, then the `onRequestUsers` event will fire again.
+     * The function called when the user can select other users to mention in the comments, grant the access rights to edit the specific sheet ranges, set the user avatars, or assign users to the form roles in the **Send for signing** panel. To set a list of users, you must call the `setUsers` method which can take different lists of users depending on the specified operation type. The `onRequestUsers` event is called once for each `c` type when the corresponding operation is performed. If `setUsers` is called with an empty list, then the `onRequestUsers` event will fire again.
      *
      * @param event
      *
@@ -2908,10 +2910,10 @@ export interface EventsNormal extends EventsBase {
     onRequestSendNotify?: (event: RequestSendNotifyEvent) => void;
 
     /**
-     * The function called when the user is trying to insert an image by clicking the *Image from Storage* button. To insert an image, call the `insertImage` method with the specified command. When calling this method, the `token` must be added to validate the parameters.
+     * The function called when the user is trying to insert an image by clicking the *Image from storage* button. To insert an image, call the `insertImage` method with the specified command. When calling this method, the `token` must be added to validate the parameters.
      *
      * @param event
-     * @note If this event is not declared, the *Image from Storage* button will not be displayed.
+     * @note If this event is not declared, the *Image from storage* button will not be displayed.
      *
      * @forType `desktop` | `mobile`
      * @example
@@ -2938,7 +2940,7 @@ export interface EventsNormal extends EventsBase {
     onRequestInsertImage?: (event: RequestInsertImageEvent) => void;
 
     /**
-     * The function called when the user is trying to select a document for comparing by clicking the *Document from Storage* button.
+     * The function called when the user is trying to select a document for comparing by clicking the *Document from storage* button.
      *
      * @note This event is available only for **ONLYOFFICE Docs Enterprise** and **ONLYOFFICE Docs Developer**.
      * @deprecated Starting from version 7.5, please use `onRequestSelectDocument` instead.
@@ -3132,9 +3134,9 @@ export interface EventsNormal extends EventsBase {
     onSaveDocument?: (event: SaveDocumentEvent) => void;
 
     /**
-     * The function called when the user is trying to start filling out ready forms by clicking the *Start filling* button in PDF editing mode. When the user clicks the *Start filling* button, the `startFilling` method is called to lock PDF editing (only PDF viewing becomes available). This event is also called after the `requestRoles` method is called.
+     * The function called when the user is trying to start filling out ready forms by clicking the *Share & collect* button in PDF editing mode (the button caption can be changed with the `startFillingForm` parameter). The array of form roles is passed in the `data` parameter. To lock PDF editing (only PDF viewing becomes available), call the `startFilling` method in the event handler. This event is also called after the `requestRoles` method is called.
      *
-     * @note If this event is not declared, the *Start filling* button will not be displayed.
+     * @note The *Share & collect* button is displayed if this event or the `onStartFilling` event is declared. If only `onStartFilling` is declared, clicking the button opens the built-in **Send for signing** panel, where the user assigns users to the form roles and sends the form for filling. The list of users for this panel is requested with the `onRequestUsers` event with `c` set to `"filler"`. After the form is sent, the `onStartFilling` event is called.
      *
      * @forType `desktop` | `mobile`
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/#onrequeststartfilling
@@ -3197,7 +3199,9 @@ export interface EventsNormal extends EventsBase {
     onRequestFillingStatus?: (event: RequestFillingStatusEvent) => void;
 
     /**
-     * The function called when the PDF form is ready for filling, i.e. after the {@link DocEditor.startFilling startFilling} method is called and the form preparation is complete.
+     * The function called when the PDF form is ready for filling, i.e. after the {@link DocEditor.startFilling startFilling} method is called or the form is sent from the built-in **Send for signing** panel, and the form preparation is complete.
+     *
+     * @note The array of roles is passed in `event.data` only when the form is sent from the **Send for signing** panel. When the form is started with the `startFilling` method, `event.data` is `undefined`.
      * @forType `desktop` | `mobile`
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/events/#onstartfilling
      */
@@ -3614,7 +3618,7 @@ export interface SetUsersOptions {
      *
      * @default "mention"
      */
-    c: "mention" | "protect" | "info";
+    c: "mention" | "protect" | "info" | "filler";
 
     /**
      * The list of the users.
@@ -3910,7 +3914,7 @@ export declare class DocEditor {
     requestClose(): void;
 
     /**
-     * Request the roles of the PDF form that is being edited. In response, the editor calls the `onRequestStartFilling` event and passes the array of form roles in its `data` parameter, the same as when the user clicks the *Start filling* button. Declare this event to receive the roles. If the document is not loaded yet, the event is called once loading is complete.
+     * Request the roles of the PDF form that is being edited. In response, the editor calls the `onRequestStartFilling` event and passes the array of form roles in its `data` parameter, the same as when the user clicks the *Share & collect* button. Declare this event to receive the roles. If the document is not loaded yet, the event is called once loading is complete.
      *
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#requestroles
      */
@@ -3993,7 +3997,7 @@ export declare class DocEditor {
     setSharingSettings(options: SetSharingSettingsOptions): void;
 
     /**
-     * Set a list of users to mention in the comments, grant the access rights to edit the specific sheet ranges, or set the user avatars. This method must be called after the `onRequestUsers` event.
+     * Set a list of users to mention in the comments, grant the access rights to edit the specific sheet ranges, set the user avatars, or assign users to the form roles in the **Send for signing** panel. This method must be called after the `onRequestUsers` event.
      *
      * @see https://api.onlyoffice.com/docs/docs-api/usage-api/methods/#setusers
      */
@@ -4009,7 +4013,7 @@ export declare class DocEditor {
     showMessage(message: string): void;
 
     /**
-     * Start filling out the ready forms and lock the pdf editing (only pdf viewing becomes available). This method can be called only after the `onRequestStartFilling` event. When the form preparation is complete, the `onStartFilling` event is called.
+     * Start filling out the ready forms and lock the PDF editing (only PDF viewing becomes available). This method can be called only after the `onRequestStartFilling` event. When the form preparation is complete, the `onStartFilling` event is called.
      *
      * @note This method works only if the `onStartFilling` event is declared. Otherwise, the call is ignored.
      * @param disconnect - Specifies whether to lock editing for all the users who are editing the form: `true` to switch all the co-editors to viewing mode and show them a warning that form filling is in progress, `false` to lock editing only for the current user. The default value is `false`.
