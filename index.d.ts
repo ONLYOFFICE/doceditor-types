@@ -1405,7 +1405,7 @@ export interface EditorConfigNormal extends EditorConfigBase {
         ai?: {
             /**
              * Whether to disable the AI features in the editor. If set to `true`, the **AI Tools** are hidden.
-             * This is a shortcut for adding the AI plugin identifier (`asc.{9DC93CDB-B576-4F0C-B55E-FCC9C48DD007}`) to the `editorConfig.plugins.disable` list.
+             * This is a shortcut for adding the AI Tools identifier (`asc.{9DC93CDB-B576-4F0C-B55E-FCC9C48DD007}`) to the `editorConfig.plugins.disable` list.
              *
              * @default false
              * @example true
