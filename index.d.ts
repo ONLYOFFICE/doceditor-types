@@ -219,18 +219,18 @@ export interface DocumentStateChangeEvent {
 /** Event data for the `onRequestHistoryData` event. */
 export interface RequestHistoryDataEvent {
     /**
-     * The document version number.
+     * The document version number, as passed in `history.version` to the `refreshHistory` method.
      */
-    data?: number;
+    data?: number | string;
 }
 
 /** Event data for the `onRequestRestore` event. */
 export interface RequestRestoreEvent {
     data?: {
         /**
-         * The document version number.
+         * The document version number, as passed in `history.version` to the `refreshHistory` method.
          */
-        version?: number;
+        version?: number | string;
         /**
          * The document link from the history object. Sent if called for the document changes.
          */
@@ -3430,9 +3430,9 @@ export interface InsertImageOptions {
 /** Parameters for the `refreshHistory` method. */
 export interface RefreshHistoryOptions {
     /**
-     * The current document version number.
+     * The current document version number. If this parameter is not specified or does not match any version, the last version in the `history` array is selected.
      */
-    currentVersion?: number;
+    currentVersion?: number | string;
 
     /**
      * The error message text.
@@ -3472,9 +3472,9 @@ export interface RefreshHistoryOptions {
         };
 
         /**
-         * The document version number.
+         * The document version number, e.g. `2` or `"1.2"`. The editor returns this value as is in the `onRequestHistoryData` and `onRequestRestore` events.
          */
-        version: number;
+        version: number | string;
     }[];
 }
 
@@ -3520,9 +3520,9 @@ export interface SetHistoryDataOptions {
     url?: string;
 
     /**
-     * The document version number.
+     * The document version number. It must match the `history.version` value passed to the `refreshHistory` method, including its type.
      */
-    version: number;
+    version: number | string;
 }
 
 /** Parameters for the `setReferenceData` and `setReferenceSource` methods. */
