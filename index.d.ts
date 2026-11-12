@@ -790,6 +790,150 @@ export interface ReferenceData {
     instanceId?: string;
 }
 
+/** The watermark properties, the same as the `watermark` parameter of the conversion request. */
+export interface Watermark {
+    /**
+     * The vertical text align in the watermark shape: `0` - bottom, `1` - center, `4` - top.
+     * @default 1
+     */
+    align?: 0 | 1 | 4;
+
+    /**
+     * The watermark fill color in the RGB format, or the URL to an image (base64 is supported). The empty array means that the watermark has no fill.
+     * @example [255, 0, 0]
+     */
+    fill?: number[] | string;
+
+    /**
+     * The watermark height measured in millimeters.
+     * @example 100
+     */
+    height?: number;
+
+    /**
+     * The text margins measured in millimeters in the watermark shape, in the order: left, top, right, bottom. Applies only when all four values are specified.
+     * @example [10, 10, 10, 10]
+     */
+    margins?: number[];
+
+    /**
+     * The paragraphs of the watermark text.
+     */
+    paragraphs?: WatermarkParagraph[];
+
+    /**
+     * The watermark rotation angle measured in degrees.
+     * @example -45
+     */
+    rotate?: number;
+
+    /**
+     * The watermark stroke color in the RGB format. The empty array means that the watermark has no stroke. If only `stroke-width` is specified, the stroke is black.
+     * @example [0, 0, 255]
+     */
+    stroke?: number[];
+
+    /**
+     * The watermark stroke width measured in millimeters. If only `stroke` is specified, the width is 0.35 mm (1 pt).
+     * @example 1
+     */
+    "stroke-width"?: number;
+
+    /**
+     * The watermark opacity, from `0` (invisible) to `1` (opaque).
+     * @default 0.3
+     * @example 0.3
+     */
+    transparent?: number;
+
+    /**
+     * The shape type which specifies the preset shape geometry for the watermark.
+     * @default "rect"
+     * @example "rect"
+     */
+    type?: string;
+
+    /**
+     * The watermark width measured in millimeters.
+     * @example 100
+     */
+    width?: number;
+}
+
+/** A paragraph of the watermark text. */
+export interface WatermarkParagraph {
+    /**
+     * The horizontal text align in the paragraph: `0` - right, `1` - left, `2` - center, `3` - justify.
+     */
+    align?: 0 | 1 | 2 | 3;
+
+    /**
+     * The paragraph highlight in the RGB format. The empty array means that the paragraph is not highlighted.
+     * @example [255, 0, 0]
+     */
+    fill?: number[];
+
+    /**
+     * The line spacing multiplier in the paragraph: `1` - single, `1.5` - one and a half, `2` - double.
+     * @example 1
+     */
+    linespacing?: number;
+
+    /**
+     * The text runs of the paragraph. Must be specified for every paragraph.
+     */
+    runs: WatermarkRun[];
+}
+
+/** A text run of a watermark paragraph. */
+export interface WatermarkRun {
+    /**
+     * Whether the text is bold.
+     */
+    bold?: boolean;
+
+    /**
+     * The text color in the RGB format.
+     * @example [0, 0, 0]
+     */
+    fill?: number[];
+
+    /**
+     * The text font family.
+     * @default "Arial"
+     * @example "Arial"
+     */
+    "font-family"?: string;
+
+    /**
+     * The text font size measured in points.
+     * @default 50
+     * @example 40
+     */
+    "font-size"?: number;
+
+    /**
+     * Whether the text is italic.
+     */
+    italic?: boolean;
+
+    /**
+     * Whether the text is struck through.
+     */
+    strikeout?: boolean;
+
+    /**
+     * The run text. The `<%br%>` value inserts a line break.
+     * @example "Confidential: %user_name%"
+     */
+    text?: string;
+
+    /**
+     * Whether the text is underlined.
+     */
+    underline?: boolean;
+}
+
 /** The action link data for scrolling to a bookmark or comment in the document. */
 export interface ActionLink {
     /**
@@ -859,11 +1003,20 @@ export interface DocumentBase {
 
 /** Document parameters for desktop and mobile editor types. */
 export interface DocumentNormal extends DocumentBase {
-    // TODO: Not in the documentation
     /**
+     * The additional options for opening the document.
      * @forType `desktop` | `mobile`
+     * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/document/#options
      */
-    options?: Record<string, unknown>;
+    options?: {
+        /**
+         * The watermark drawn over every page of the document while it is open in the editor: an object, or a string with this object in JSON. The `%user_name%` placeholder is replaced anywhere in the object with the name of the current user, without escaping: a name with `"` or `\` makes the object unparsable, and no watermark is shown. The watermark is added to files downloaded as PDF or image.
+         *
+         * @note The watermark is drawn in the browser, so it does not restrict access to the document. To stop users from getting the document without the watermark, also set `permissions.download`, `permissions.print` and `permissions.copy` to `false`. To insert a watermark into the file on the server, use the conversion API.
+         * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/document/#optionswatermark
+         */
+        watermark?: Watermark | string;
+    };
 
     /**
      * An object that is generated by the integrator to uniquely identify a file in its system.
