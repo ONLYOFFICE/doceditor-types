@@ -1010,12 +1010,19 @@ export interface DocumentNormal extends DocumentBase {
      */
     options?: {
         /**
-         * The watermark drawn over every page of the document while it is open in the editor: an object, or a string with this object in JSON. The `%user_name%` placeholder is replaced anywhere in the object with the name of the current user, without escaping: a name with `"` or `\` makes the object unparsable, and no watermark is shown. The watermark is added to files downloaded as PDF or image.
+         * The watermark added to the files downloaded from the editor as PDF or image: an object, or a string with this object in JSON. It is not drawn on the pages in the editor; use `watermark_on_draw` for that. The `%user_name%` placeholder is replaced anywhere in the object with the name of the current user.
          *
-         * @note The watermark is drawn in the browser, so it does not restrict access to the document. To stop users from getting the document without the watermark, also set `permissions.download`, `permissions.print` and `permissions.copy` to `false`. To insert a watermark into the file on the server, use the conversion API.
          * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/document/#optionswatermark
          */
         watermark?: Watermark | string;
+
+        /**
+         * The watermark drawn over every page of the document while it is open in the editor and added to the files downloaded as PDF or image: an object, or a string with this object in JSON. The `%user_name%` placeholder is replaced anywhere in the object with the name of the current user, without escaping: a name with `"` or `\` makes the object unparsable, and no watermark is shown.
+         *
+         * @note The watermark is drawn in the browser, so it does not restrict access to the document. To stop users from getting the document without the watermark, also set `permissions.download`, `permissions.print` and `permissions.copy` to `false`. To insert a watermark into the file on the server, use the conversion API.
+         * @see https://api.onlyoffice.com/docs/docs-api/usage-api/config/document/#optionswatermark_on_draw
+         */
+        watermark_on_draw?: Watermark | string;
     };
 
     /**
